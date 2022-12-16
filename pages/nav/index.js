@@ -264,7 +264,9 @@ const fetchTitles = async (category) => {
 
 async function getSections() {
   let response = await getCategories();
-
+  if(!response){
+    return null;
+  }
   let navData = [];
   let nosotrosSection;
   let programasSection;

@@ -27,7 +27,7 @@ export async function getServerSideProps() {
       props: {
         swiperBlocks: [
           {
-            imageLink: "https://brianshim.com/webtricks/wp-content/uploads/sites/2/2022/02/2022-02-25.png",
+            imageLink: "https://cdn.crispedge.com/43464b.png",
             title: "Server error",
             subtitle: "try to reload the page",
             cta: "",
