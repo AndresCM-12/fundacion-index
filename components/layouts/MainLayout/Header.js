@@ -630,7 +630,14 @@ const Header = ({ type = "aqua" }) => {
 
 async function getSections() {
   const response = await getCategories();
-
+  if (!response) {
+    return {
+      nosotrosSection: { dropdown: [] },
+      programasSection: { dropdown: [] },
+      donativosSection: { dropdown: [] },
+      recicladoresSection: { dropdown: [] },
+    };
+  }
   let navData = [];
   let nosotrosSection;
   let programasSection;

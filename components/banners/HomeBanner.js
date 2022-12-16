@@ -22,12 +22,13 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
       id="homeBanner"
     >
       <Swiper
+        speed={1000}
         navigation={true}
         pagination={{
           type: "fraction",
         }}
         autoplay={{
-          delay: 2500,
+          delay: 5500,
           disableOnInteraction: false,
         }}
         loop={true}

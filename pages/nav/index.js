@@ -318,6 +318,13 @@ async function getSections() {
 
 export async function getServerSideProps() {
   let sections = await getSections();
+  if (!sections) {
+    return {
+      props: {
+        navData: [],
+      },
+    };
+  }
   sections.map((item) => {
     return (item.title =
       item.title.charAt(0).toUpperCase() + item.title.slice(1));

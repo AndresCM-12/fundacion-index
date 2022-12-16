@@ -272,6 +272,7 @@ const Footer = () => {
 
 const fetchTitles = async (category) => {
   const data = await getPostsFromCategories(category);
+  if (!data) return null;
   const posts = data.data.categories.nodes[0].posts.edges;
   const categoryTitle = data.data.categories.edges[0].node.name;
 
@@ -298,6 +299,14 @@ const fetchTitles = async (category) => {
 
 async function getSections() {
   const response = await getCategories();
+  if (!response) {
+    return {
+      nosotrosSection: { dropdown: [] },
+      programasSection: { dropdown: [] },
+      donativosSection: { dropdown: [] },
+      recicladoresSection: { dropdown: [] },
+    };
+  }
 
   let navData = [];
   let nosotrosSection;

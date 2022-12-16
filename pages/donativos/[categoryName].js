@@ -9,7 +9,6 @@ import DynamicListComponent from "./DynamicListComponent";
 import DynamicUsbSectionComponent from "./DynamicUsbSectionComponent";
 import { getPostsFromCategories } from "@/components/utils/Queries";
 
-
 const SaludBucalPage = ({ post, navData, postIndex }) => {
   let divWithFetchedContent;
   useEffect(() => {
@@ -59,7 +58,20 @@ const SaludBucalPage = ({ post, navData, postIndex }) => {
 
 export async function getServerSideProps({ params }) {
   let data = await getPostsFromCategories("donativos");
-
+  if (!data) {
+    return {
+      props: {
+        post: { title: "Server error", content: "try to reload the page" },
+        navData: [
+          {
+            text: "Server error",
+            link: "/",
+          },
+        ],
+        postIndex: 0,
+      },
+    };
+  }
   const posts = data.data.categories.nodes[0].posts.edges;
   const navData = posts.map((post) => {
     return {

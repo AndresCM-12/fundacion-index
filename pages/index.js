@@ -22,6 +22,28 @@ export default function Home({ swiperBlocks, numbersBlocks }) {
 export async function getServerSideProps() {
   const data = await getPostsFromCategories("segments");
 
+  if (!data) {
+    return {
+      props: {
+        swiperBlocks: [
+          {
+            imageLink: "https://brianshim.com/webtricks/wp-content/uploads/sites/2/2022/02/2022-02-25.png",
+            title: "Server error",
+            subtitle: "try to reload the page",
+            cta: "",
+            link: "/",
+          },
+        ],
+        numbersBlocks: [
+          {
+            number: "500",
+            title: "Server error",
+          },
+        ],
+      },
+    };
+  }
+
   const numbers = data.data.categories.nodes[0].posts.edges.find((edge) => {
     return edge.node.title === "homebanner/numbers";
   });
@@ -35,6 +57,7 @@ export async function getServerSideProps() {
 
   let swiperBlocks = [],
     numbersBlocks = [];
+
   carrouselSegment.map((segment) => {
     const imageLink = segment.split('src="')[1].split('" alt')[0];
     const title = segment.split("<strong>")[1].split("</strong></h1>")[0];

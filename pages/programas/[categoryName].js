@@ -41,6 +41,20 @@ const JardinPage = ({ post, navData, postIndex }) => {
 
 export async function getServerSideProps({ params }) {
   const data = await getPostsFromCategories("programas");
+  if (!data) {
+    return {
+      props: {
+        post: { title: "Server error", content: "try to reload the page" },
+        navData: [
+          {
+            text: "Server error",
+            link: "/",
+          },
+        ],
+        postIndex: 0,
+      },
+    };
+  }
   const posts = data.data.categories.nodes[0].posts.edges;
   const navData = posts.map((post) => {
     return {

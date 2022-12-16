@@ -23,7 +23,9 @@ const getPostsFromCategories = async (segments) => {
   let data = await fetch(
     "http://fundacionindexcms.local/graphql?query=" + query,
     {}
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
 
   return data;
 };
@@ -44,7 +46,9 @@ const getCategories = async () => {
   const response = await fetch(
     "http://fundacionindexcms.local/graphql?query=" + query,
     {}
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
   return response;
 };
 
