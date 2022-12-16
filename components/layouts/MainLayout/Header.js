@@ -181,47 +181,56 @@ const Header = ({ type = "aqua" }) => {
                                     ella.
                                   </p>
                                 </div>
-                                <div className="wrappertwo  border-l-2 pr-8 pl-8">
+                                <div className="wrappertwo w-4/12 border-l-2  pl-8">
                                   <h2 className="uppercase font-albra tracking-headline text-xs leading-3 text-black font-bold">
                                     A detalle
                                   </h2>
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.nosotrosSection?.dropdown.map(
                                       (item, index) => {
-                                        return (
-                                          <li
-                                            key={index}
-                                            className="text-black hover:text-index-aqua hover:underline pt-4"
-                                          >
-                                            <Link href={item.link}>
-                                              <a>{item.text}</a>
-                                            </Link>
-                                          </li>
-                                        );
+                                        if (index <= 4)
+                                          return (
+                                            <li
+                                              key={index}
+                                              className="text-black hover:text-index-aqua hover:underline pt-4"
+                                            >
+                                              <Link href={item.link}>
+                                                <a>{item.text}</a>
+                                              </Link>
+                                            </li>
+                                          );
                                       }
                                     )}
-                                    {/* <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/nosotros/acercade">
-                                        <a>Acerca de nosotros</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/nosotros/historia">
-                                        <a>Historia</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/nosotros/consejo">
-                                        <a>Consejo directivo</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/nosotros/transparencia">
-                                        <a>Transparencia</a>
-                                      </Link>
-                                    </li> */}
                                   </ul>
                                 </div>
+                                {navData?.nosotrosSection?.dropdown.length >
+                                4 ? (
+                                  <>
+                                    {" "}
+                                    <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                      <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                      <ul className="text-[21px] leading-6 font-normal font-albra">
+                                        {navData?.nosotrosSection?.dropdown.map(
+                                          (item, index) => {
+                                            if (index > 4)
+                                              return (
+                                                <li
+                                                  key={index}
+                                                  className="text-black hover:text-index-aqua hover:underline pt-4"
+                                                >
+                                                  <Link href={item.link}>
+                                                    <a>{item.text}</a>
+                                                  </Link>
+                                                </li>
+                                              );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </div>
                           </Popover.Panel>
@@ -305,31 +314,6 @@ const Header = ({ type = "aqua" }) => {
                                           );
                                       }
                                     )}
-                                    {/* <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/jardindeninos">
-                                        <a>Jardín de Niños Index</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/becas">
-                                        <a>Becas Técnicas</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/ampliacionviviendas">
-                                        <a>Ampliación de vivienda</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/audicionlenguaje">
-                                        <a>Audición y Lenguaje</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/saludbucal">
-                                        <a>Salud Bucal</a>
-                                      </Link>
-                                    </li> */}
                                   </ul>
                                 </div>
                                 <div className="wrappertwo border-l-2 pr-8 pl-8">
@@ -350,26 +334,6 @@ const Header = ({ type = "aqua" }) => {
                                           );
                                       }
                                     )}
-                                    {/* <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/atencionhiperactividad">
-                                        <a>Atención e Hiperactividad</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/cancerprostata">
-                                        <a>Cáncer de Próstata</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/saludvisual">
-                                        <a>Salud Visual</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/programas/apoyocomunidad">
-                                        <a>Apoyo a la comunidad</a>
-                                      </Link>
-                                    </li> */}
                                   </ul>
                                 </div>
                               </div>
@@ -436,7 +400,8 @@ const Header = ({ type = "aqua" }) => {
                                     tu proyecto.
                                   </p>
                                 </div>
-                                <div className="wrappertwo  border-l-2 pr-8 pl-8">
+
+                                <div className="wrappertwo w-4/12 border-l-2  pl-8">
                                   <h2 className="uppercase font-albra tracking-headline text-xs leading-3 text-black font-bold">
                                     A detalle
                                   </h2>
@@ -456,28 +421,36 @@ const Header = ({ type = "aqua" }) => {
                                           );
                                       }
                                     )}
-                                    {/* <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/donativos/requisitos">
-                                        <a>Requisitos</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/donativos/procedimiento">
-                                        <a>Procedimiento</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/donativos/documentacion">
-                                        <a>Documentación</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/donativos/criteriosnoelegibilidad">
-                                        <a>Criterios de no elegibilidad</a>
-                                      </Link>
-                                    </li> */}
                                   </ul>
                                 </div>
+                                {navData?.donativosSection?.dropdown.length >
+                                4 ? (
+                                  <>
+                                    {" "}
+                                    <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                      <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                      <ul className="text-[21px] leading-6 font-normal font-albra">
+                                        {navData?.donativosSection?.dropdown.map(
+                                          (item, index) => {
+                                            if (index > 4)
+                                              return (
+                                                <li
+                                                  key={index}
+                                                  className="text-black hover:text-index-aqua hover:underline pt-4"
+                                                >
+                                                  <Link href={item.link}>
+                                                    <a>{item.text}</a>
+                                                  </Link>
+                                                </li>
+                                              );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </div>
                           </Popover.Panel>
@@ -542,7 +515,7 @@ const Header = ({ type = "aqua" }) => {
                                     recicladores.
                                   </p>
                                 </div>
-                                <div className="wrappertwo  border-l-2 pr-8 pl-8">
+                                <div className="wrappertwo w-4/12 border-l-2  pl-8">
                                   <h2 className="uppercase font-albra tracking-headline text-xs leading-3 text-black font-bold">
                                     A detalle
                                   </h2>
@@ -562,28 +535,36 @@ const Header = ({ type = "aqua" }) => {
                                           );
                                       }
                                     )}
-                                    {/* <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/recicladores/empresas">
-                                        <a>Empresas recicladoras</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/recicladores/empresas#requisitos">
-                                        <a>Requisitos</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/recicladores/documentacion">
-                                        <a>Documentación</a>
-                                      </Link>
-                                    </li>
-                                    <li className="text-black hover:text-index-aqua hover:underline pt-4">
-                                      <Link href="/recicladores/documentacion#f30">
-                                        <a>F-30</a>
-                                      </Link>
-                                    </li> */}
                                   </ul>
                                 </div>
+                                {navData?.recicladoresSection?.dropdown.length >
+                                4 ? (
+                                  <>
+                                    {" "}
+                                    <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                      <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                      <ul className="text-[21px] leading-6 font-normal font-albra">
+                                        {navData?.recicladoresSection?.dropdown.map(
+                                          (item, index) => {
+                                            if (index > 4)
+                                              return (
+                                                <li
+                                                  key={index}
+                                                  className="text-black hover:text-index-aqua hover:underline pt-4"
+                                                >
+                                                  <Link href={item.link}>
+                                                    <a>{item.text}</a>
+                                                  </Link>
+                                                </li>
+                                              );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </div>
                           </Popover.Panel>

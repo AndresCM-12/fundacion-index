@@ -25,7 +25,7 @@ const getPostsFromCategories = async (segments) => {
     {}
   )
     .then((res) => res.json())
-    .catch((err) => console.log(err));
+    .catch((err) => {});
 
   return data;
 };
@@ -48,7 +48,7 @@ const getCategories = async () => {
     {}
   )
     .then((res) => res.json())
-    .catch((err) => console.log(err));
+    .catch((err) => {});
   return response;
 };
 
