@@ -251,13 +251,20 @@ const Footer = () => {
                 className="underline hover:text-index-aqua"
               >
                 Reclight.studio
-              </a>{" "}
-              y{" "}
+              </a>
+              ,{" "}
               <a
                 href="https://molus.co/"
                 className="underline hover:text-index-aqua "
               >
                 Molus.co
+              </a>
+              y{" "}
+              <a
+                href="https://deadline.mx/es"
+                className="underline hover:text-index-aqua "
+              >
+                Deadline studio
               </a>
             </p>
           </div>
