@@ -573,6 +573,119 @@ const Header = ({ type = "aqua" }) => {
                     );
                   }}
                 </Popover>
+                {/* BOLETINES */}
+                <Popover>
+                  {({ open }) => {
+                    return (
+                      <>
+                        <div
+                          className="buttonwrapper"
+                          onClick={() => {
+                            changeGlobalOpen(!open);
+                          }}
+                        >
+                          <Popover.Button
+                            className={classNames(
+                              globalOpen
+                                ? "text-black hover:text-black"
+                                : "text-white hover:text.white",
+
+                              "group inline-flex items-center text-base font-medium focus:outline-none focus:ring-0 text-[15px] leading-6"
+                            )}
+                          >
+                            <span>Boletines</span>
+                            <ChevronDownIcon
+                              className={classNames(
+                                open
+                                  ? "text-index-aqua hover:text-index-aqua hover:underline rotate-180"
+                                  : "text-white hover:text-white",
+                                globalOpen && !open && "text-index-aqua",
+
+                                "ml-2 h-5 w-5"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </Popover.Button>
+                        </div>
+
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 -translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 -translate-y-1"
+                        >
+                          <Popover.Panel className="hidden  text-black  md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white">
+                            <div className="max-w-7xl  mx-auto  px-4 py-6  sm:px-6 sm:py-8  lg:px-8 lg:py-12">
+                              <div className="content  flex w-full">
+                                <div className="wrapper flex flex-col w-4/12">
+                                  <h2 className="md:text-[36px] md:leading-[36px] text-left font-basetica font-bold ">
+                                    Boletín
+                                  </h2>
+                                  <p className=" mt-7 text-[18px] leading-6 w-3/4 font-albra font-normal">
+                                    Consulta nuestra información más reciente.
+                                  </p>
+                                </div>
+                                <div className="wrappertwo w-4/12 border-l-2  pl-8">
+                                  <h2 className="uppercase font-albra tracking-headline text-xs leading-3 text-black font-bold">
+                                    A detalle
+                                  </h2>
+                                  <ul className="text-[21px] leading-6 font-normal font-albra">
+                                    {navData?.boletinesSection?.dropdown.map(
+                                      (item, index) => {
+                                        if (index <= 4)
+                                          return (
+                                            <li
+                                              key={index}
+                                              className="text-black hover:text-index-aqua hover:underline pt-4"
+                                            >
+                                              <Link href={item.link}>
+                                                <a>{item.text}</a>
+                                              </Link>
+                                            </li>
+                                          );
+                                      }
+                                    )}
+                                  </ul>
+                                </div>
+                                {navData?.boletinesSection?.dropdown.length >
+                                4 ? (
+                                  <>
+                                    {" "}
+                                    <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                      <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                      <ul className="text-[21px] leading-6 font-normal font-albra">
+                                        {navData?.boletinesSection?.dropdown.map(
+                                          (item, index) => {
+                                            if (index > 4)
+                                              return (
+                                                <li
+                                                  key={index}
+                                                  className="text-black hover:text-index-aqua hover:underline pt-4"
+                                                >
+                                                  <Link href={item.link}>
+                                                    <a>{item.text}</a>
+                                                  </Link>
+                                                </li>
+                                              );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    );
+                  }}
+                </Popover>
                 {/* DONANTES */}
                 <Link
                   href="/donantes/empresas"
@@ -624,6 +737,7 @@ async function getSections() {
   let programasSection;
   let donativosSection;
   let recicladoresSection;
+  let boletinesSection;
   let props;
 
   await Promise.all(
@@ -643,11 +757,15 @@ async function getSections() {
       recicladoresSection = navData.find((item) => {
         return item.title === "recicladores";
       });
+      boletinesSection = navData.find((item) => {
+        return item.title === "boletines";
+      });
       return await {
         nosotrosSection,
         programasSection,
         donativosSection,
         recicladoresSection,
+        boletinesSection,
       };
     })
   );
@@ -657,12 +775,14 @@ async function getSections() {
     programasSection,
     donativosSection,
     recicladoresSection,
+    boletinesSection,
   };
   return await props;
 }
 
 const fetchTitles = async (category) => {
   const data = await getPostsFromCategories(category);
+  if(!data) return [{text: "Error, recarga la página", link: "/"}];
   const posts = data.data.categories.nodes[0].posts.edges;
   const categoryTitle = data.data.categories.edges[0].node.name;
 

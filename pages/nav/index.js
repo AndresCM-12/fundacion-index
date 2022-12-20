@@ -264,7 +264,7 @@ const fetchTitles = async (category) => {
 
 async function getSections() {
   let response = await getCategories();
-  if(!response){
+  if (!response) {
     return null;
   }
   let navData = [];
@@ -272,6 +272,7 @@ async function getSections() {
   let programasSection;
   let donativosSection;
   let recicladoresSection;
+  let boletinSection;
   let props;
 
   await Promise.all(
@@ -291,11 +292,15 @@ async function getSections() {
       recicladoresSection = navData.find((item) => {
         return item.title === "recicladores";
       });
+      boletinSection = navData.find((item) => {
+        return item.title === "boletines";
+      });
       return await {
         nosotrosSection,
         programasSection,
         donativosSection,
         recicladoresSection,
+        boletinSection,
       };
     })
   );
@@ -309,6 +314,7 @@ async function getSections() {
     programasSection,
     donativosSection,
     recicladoresSection,
+    boletinSection,
     {
       title: "Donantes",
       link: "/donantes/empresas",

@@ -2,13 +2,10 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import ImageSection from "@/components/sections/ImageSection";
 import { useEffect } from "react";
-import NosotrosBanner from "@/components/banners/NosotrosBanner";
+import BoletinesBanner from "@/components/banners/BoletinesBanner";
 import NosotrosLayout from "@/components/sections/nosotros/NosotrosLayout";
 import Numero from "@/components/icons/Numero";
-import CarouselTransparencia from "@/components/sections/nosotros/CarouselTransparencia";
 import { getPostsFromCategories } from "@/components/utils/Queries";
-import Organigrama from "@/components/sections/nosotros/Organigrama";
-import TimeLineImage from "./timeLineImage";
 
 const DinamicPage = ({ post, navData, postIndex }) => {
   let divWithFetchedContent;
@@ -24,7 +21,7 @@ const DinamicPage = ({ post, navData, postIndex }) => {
 
   return (
     <MainLayout title="Jardín de niños Index">
-      <NosotrosBanner className="bg-index-aqua" />
+      <BoletinesBanner className="bg-index-aqua" />
       <NosotrosLayout navData={navData}>
         {/* //Children Content here... */}
         <div className="wrapper">
@@ -35,51 +32,7 @@ const DinamicPage = ({ post, navData, postIndex }) => {
 
           <div id="DynamicWrapper"></div>
         </div>
-        {post.title === "Transpariencia" ? (
-          <>
-            <CarouselTransparencia />
-            <p className="mt-16 lg:mt-0 mb-8 font-albra">
-              Si deseas conocer nuestros estados contables por favor envíanos un
-              correo solicitándolos a{" "}
-              <a
-                className="underline text-index-aqua"
-                href="mailto:fundacion@indexchihuahua.org.mx"
-              >
-                fundacion@indexchihuahua.org.mx
-              </a>{" "}
-              y con gusto te los haremos llegar a la brevedad posible.
-            </p>
-            <div className="wrapper mb-16 font-albra">
-              <a
-                href="/api/informe2020"
-                target="_blank"
-                className="underline text-black font-bold "
-              >
-                Descarga nuestro Informe Anual 2020
-              </a>
-              <br />
-              <a
-                href="/api/informe2021"
-                target="_blank"
-                className="underline text-black font-bold "
-              >
-                Descarga nuestro Informe Anual 2021
-              </a>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
       </NosotrosLayout>{" "}
-      {post?.title === "Consejo directivo" ? (
-        <>
-          <div className="dummyspace py-8 bg-index-gray"></div>
-          <Organigrama />
-        </>
-      ) : (
-        <></>
-      )}
-      {post?.title === "Historia" ? <TimeLineImage /> : <></>}
       <div className="dummyspace py-8 bg-index-gray"></div>
       <ImageSection image="/images/friendspic.jpg" type="programas" />
     </MainLayout>
@@ -87,7 +40,7 @@ const DinamicPage = ({ post, navData, postIndex }) => {
 };
 
 export async function getServerSideProps({ params }) {
-  const data = await getPostsFromCategories("nosotros");
+  const data = await getPostsFromCategories("boletines");
   if (!data) {
     return {
       props: {
@@ -106,7 +59,7 @@ export async function getServerSideProps({ params }) {
   const navData = posts.map((post) => {
     return {
       text: post.node.title,
-      link: "/nosotros/" + post.node.title,
+      link: "/boletines/" + post.node.title,
     };
   });
 
