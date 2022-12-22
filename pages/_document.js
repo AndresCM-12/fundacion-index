@@ -55,7 +55,7 @@ export default function Document() {
         />
         <meta
           http-equiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
+          content="block-all-mixed-content"
         ></meta>
       </Head>
       <body>
