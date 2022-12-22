@@ -53,6 +53,10 @@ export default function Document() {
           as="font"
           crossOrigin="anonymous"
         />
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        ></meta>
       </Head>
       <body>
         <Main />
