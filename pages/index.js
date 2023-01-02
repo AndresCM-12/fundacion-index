@@ -4,11 +4,11 @@ import MapSection from "@/components/sections/home/MapSection";
 import ImageSection from "@/components/sections/ImageSection";
 import HomeBanner from "@/components/banners/HomeBanner";
 import ConoceMas from "@/components/sections/home/ConoceMas";
-import { getPostsFromCategories } from "@/components/utils/Queries";
+import { getCategories, getPostsFromCategories } from "@/components/utils/Queries";
 
-export default function Home({ swiperBlocks, numbersBlocks }) {
+export default function Home({ swiperBlocks, numbersBlocks, navData }) {  
   return (
-    <MainLayout>
+    <MainLayout navData={navData}>
       {/* //type options are donativos, recicladores y programas */}
       <HomeBanner swiperBlocks={swiperBlocks} className="bg-index-aqua" />
       <MapSection />
@@ -18,6 +18,91 @@ export default function Home({ swiperBlocks, numbersBlocks }) {
     </MainLayout>
   );
 }
+
+async function getSections() {
+  const response = await getCategories();
+  if (!response) {
+    return {
+      nosotrosSection: { dropdown: [] },
+      programasSection: { dropdown: [] },
+      donativosSection: { dropdown: [] },
+      recicladoresSection: { dropdown: [] },
+    };
+  }
+  let navData = [];
+  let nosotrosSection;
+  let programasSection;
+  let donativosSection;
+  let recicladoresSection;
+  let boletinesSection;
+  let props;
+
+  await Promise.all(
+    response.data.categories.edges.map(async (category) => {
+      let nav = await fetchTitles(category.node.name);
+      navData.push({ title: category.node.name, dropdown: nav });
+
+      nosotrosSection = navData.find((item) => {
+        return item.title === "nosotros";
+      });
+      programasSection = navData.find((item) => {
+        return item.title === "programas";
+      });
+      donativosSection = navData.find((item) => {
+        return item.title === "donativos";
+      });
+      recicladoresSection = navData.find((item) => {
+        return item.title === "recicladores";
+      });
+      boletinesSection = navData.find((item) => {
+        return item.title === "boletines";
+      });
+      return await {
+        nosotrosSection,
+        programasSection,
+        donativosSection,
+        recicladoresSection,
+        boletinesSection,
+      };
+    })
+  );
+
+  props = {
+    nosotrosSection,
+    programasSection,
+    donativosSection,
+    recicladoresSection,
+    boletinesSection,
+  };
+  return await props;
+}
+
+const fetchTitles = async (category) => {
+  const data = await getPostsFromCategories(category);
+  if (!data) return [{ text: "Error, recarga la página", link: "/" }];
+  const posts = data.data.categories.nodes[0].posts.edges;
+  const categoryTitle = data.data.categories.edges[0].node.name;
+
+  const navData = posts.map((post) => {
+    if (post.node.title === "Requisitos" && categoryTitle === "recicladores") {
+      return {
+        text: post.node.title,
+        link: `/${categoryTitle}/Empresas%20recicladoras#requisitos`,
+      };
+    }
+    if (post.node.title === "F-30" && categoryTitle === "recicladores") {
+      return {
+        text: post.node.title,
+        link: `/${categoryTitle}/Documentación#f30`,
+      };
+    }
+    return {
+      text: post.node.title,
+      link: `/${categoryTitle}/${post.node.title}`,
+    };
+  });
+  return navData;
+};
 
 export async function getServerSideProps() {
   const data = await getPostsFromCategories("segments");
@@ -82,11 +167,13 @@ export async function getServerSideProps() {
       title,
     });
   });
+  let navData = await getSections();
 
   return {
     props: {
       swiperBlocks: swiperBlocks,
       numbersBlocks: numbersBlocks,
+      navData: navData,
     },
   };
 }

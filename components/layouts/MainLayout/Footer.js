@@ -55,17 +55,11 @@ const navigation = {
   donantes: [{ name: "Empresas socias", href: "/donantes/empresas" }],
 };
 
-const Footer = () => {
-  const [navData, setNavData] = useState({});
+const Footer = ({ navData }) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
-  }, []);
-
-  useEffect(async () => {
-    const data = await getSections();
-    setNavData(data);
   }, []);
 
   return (
@@ -150,11 +144,11 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
                   {/* TODO: FINISH THIS IN THE FOOTER */}
-                  {navData?.nosotrosSection?.dropdown?.map((item) => {
+                  {navData?.nosotrosSection?.dropdown?.map((item, index) => {
                     if (item.link) {
                       return (
                         <>
-                          <Link href={item.link}>
+                          <Link key={index} href={item.link}>
                             <a className="text-base text-white underline font-albra font-normal text-[15px] leading-[18px] hover:text-index-aqua">
                               {item.text}
                             </a>
@@ -277,84 +271,4 @@ const Footer = () => {
   );
 };
 
-const fetchTitles = async (category) => {
-  const data = await getPostsFromCategories(category);
-  if (!data) return null;
-  const posts = data.data.categories.nodes[0].posts.edges;
-  const categoryTitle = data.data.categories.edges[0].node.name;
-
-  const navData = posts.map((post) => {
-    if (post.node.title === "Requisitos" && categoryTitle === "recicladores") {
-      return {
-        text: post.node.title,
-        link: `/${categoryTitle}/Empresas%20recicladoras#requisitos`,
-      };
-    }
-    if (post.node.title === "F-30" && categoryTitle === "recicladores") {
-      return {
-        text: post.node.title,
-        link: `/${categoryTitle}/Documentación#f30`,
-      };
-    }
-    return {
-      text: post.node.title,
-      link: `/${categoryTitle}/${post.node.title}`,
-    };
-  });
-  return navData;
-};
-
-async function getSections() {
-  const response = await getCategories();
-  if (!response) {
-    return {
-      nosotrosSection: { dropdown: [] },
-      programasSection: { dropdown: [] },
-      donativosSection: { dropdown: [] },
-      recicladoresSection: { dropdown: [] },
-    };
-  }
-
-  let navData = [];
-  let nosotrosSection;
-  let programasSection;
-  let donativosSection;
-  let recicladoresSection;
-  let props;
-
-  await Promise.all(
-    response.data.categories.edges.map(async (category) => {
-      let nav = await fetchTitles(category.node.name);
-      navData.push({ title: category.node.name, dropdown: nav });
-
-      nosotrosSection = navData.find((item) => {
-        return item.title === "nosotros";
-      });
-      programasSection = navData.find((item) => {
-        return item.title === "programas";
-      });
-      donativosSection = navData.find((item) => {
-        return item.title === "donativos";
-      });
-      recicladoresSection = navData.find((item) => {
-        return item.title === "recicladores";
-      });
-      return await {
-        nosotrosSection,
-        programasSection,
-        donativosSection,
-        recicladoresSection,
-      };
-    })
-  );
-
-  props = {
-    nosotrosSection,
-    programasSection,
-    donativosSection,
-    recicladoresSection,
-  };
-
-  return await props;
-}
 export default Footer;

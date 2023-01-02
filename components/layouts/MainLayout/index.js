@@ -2,13 +2,13 @@ import Footer from "@/components/layouts/MainLayout/Footer";
 import Header from "@/components/layouts/MainLayout/Header";
 import Seo from "@/components/common/Seo";
 
-const MainLayout = ({ headerType = "aqua", title, children }) => {
+const MainLayout = ({ headerType = "aqua", title, navData, children }) => {
   return (
     <>
-      <Header type={headerType} />
+      <Header navData={navData} type={headerType} />
       <Seo title={title} />
       {children}
-      <Footer />
+      <Footer navData={navData} />
     </>
   );
 };

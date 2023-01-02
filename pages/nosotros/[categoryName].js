@@ -6,11 +6,14 @@ import NosotrosBanner from "@/components/banners/NosotrosBanner";
 import NosotrosLayout from "@/components/sections/nosotros/NosotrosLayout";
 import Numero from "@/components/icons/Numero";
 import CarouselTransparencia from "@/components/sections/nosotros/CarouselTransparencia";
-import { getPostsFromCategories } from "@/components/utils/Queries";
+import {
+  getCategories,
+  getPostsFromCategories,
+} from "@/components/utils/Queries";
 import Organigrama from "@/components/sections/nosotros/Organigrama";
 import TimeLineImage from "./timeLineImage";
 
-const DinamicPage = ({ post, navData, postIndex }) => {
+const DinamicPage = ({ post, navData, postIndex, mainLayoutNavData }) => {
   let divWithFetchedContent;
 
   useEffect(() => {
@@ -23,7 +26,7 @@ const DinamicPage = ({ post, navData, postIndex }) => {
   }, [post]);
 
   return (
-    <MainLayout title="Jardín de niños Index">
+    <MainLayout navData={mainLayoutNavData} title="Jardín de niños Index">
       <NosotrosBanner className="bg-index-aqua" />
       <NosotrosLayout navData={navData}>
         {/* //Children Content here... */}
@@ -109,7 +112,7 @@ export async function getServerSideProps({ params }) {
       link: "/nosotros/" + post.node.title,
     };
   });
-
+  const mainLayoutNavData = await getSections();
   let post, postIndex, title, content;
   post = data.data.categories.nodes[0].posts.edges.find((post) => {
     return post.node.title === params.categoryName;
@@ -123,8 +126,94 @@ export async function getServerSideProps({ params }) {
       post: { title: title, content: content },
       navData,
       postIndex,
+      mainLayoutNavData: mainLayoutNavData,
     },
   };
 }
+
+async function getSections() {
+  const response = await getCategories();
+  if (!response) {
+    return {
+      nosotrosSection: { dropdown: [] },
+      programasSection: { dropdown: [] },
+      donativosSection: { dropdown: [] },
+      recicladoresSection: { dropdown: [] },
+    };
+  }
+  let navData = [];
+  let nosotrosSection;
+  let programasSection;
+  let donativosSection;
+  let recicladoresSection;
+  let boletinesSection;
+  let props;
+
+  await Promise.all(
+    response.data.categories.edges.map(async (category) => {
+      let nav = await fetchTitles(category.node.name);
+      navData.push({ title: category.node.name, dropdown: nav });
+
+      nosotrosSection = navData.find((item) => {
+        return item.title === "nosotros";
+      });
+      programasSection = navData.find((item) => {
+        return item.title === "programas";
+      });
+      donativosSection = navData.find((item) => {
+        return item.title === "donativos";
+      });
+      recicladoresSection = navData.find((item) => {
+        return item.title === "recicladores";
+      });
+      boletinesSection = navData.find((item) => {
+        return item.title === "boletines";
+      });
+      return await {
+        nosotrosSection,
+        programasSection,
+        donativosSection,
+        recicladoresSection,
+        boletinesSection,
+      };
+    })
+  );
+
+  props = {
+    nosotrosSection,
+    programasSection,
+    donativosSection,
+    recicladoresSection,
+    boletinesSection,
+  };
+  return await props;
+}
+
+const fetchTitles = async (category) => {
+  const data = await getPostsFromCategories(category);
+  if (!data) return [{ text: "Error, recarga la página", link: "/" }];
+  const posts = data.data.categories.nodes[0].posts.edges;
+  const categoryTitle = data.data.categories.edges[0].node.name;
+
+  const navData = posts.map((post) => {
+    if (post.node.title === "Requisitos" && categoryTitle === "recicladores") {
+      return {
+        text: post.node.title,
+        link: `/${categoryTitle}/Empresas%20recicladoras#requisitos`,
+      };
+    }
+    if (post.node.title === "F-30" && categoryTitle === "recicladores") {
+      return {
+        text: post.node.title,
+        link: `/${categoryTitle}/Documentación#f30`,
+      };
+    }
+    return {
+      text: post.node.title,
+      link: `/${categoryTitle}/${post.node.title}`,
+    };
+  });
+  return navData;
+};
 
 export default DinamicPage;

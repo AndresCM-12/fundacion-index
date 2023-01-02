@@ -53,10 +53,6 @@ export default function Document() {
           as="font"
           crossOrigin="anonymous"
         />
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="block-all-mixed-content"
-        ></meta>
       </Head>
       <body>
         <Main />
