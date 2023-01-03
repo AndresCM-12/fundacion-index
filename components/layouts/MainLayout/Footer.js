@@ -258,7 +258,7 @@ const Footer = ({ navData }) => {
                 href="https://deadline.mx/es"
                 className="underline hover:text-index-aqua "
               >
-                Deadline studio
+                Deadline
               </a>
             </p>
           </div>
