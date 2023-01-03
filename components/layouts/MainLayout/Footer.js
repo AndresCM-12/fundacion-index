@@ -253,7 +253,7 @@ const Footer = ({ navData }) => {
               >
                 Molus.co
               </a>
-              y{" "}
+              {" "}y{" "}
               <a
                 href="https://deadline.mx/es"
                 className="underline hover:text-index-aqua "
