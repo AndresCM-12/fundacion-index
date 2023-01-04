@@ -76,8 +76,7 @@ const DinamicPage = ({ post, navData, postIndex, mainLayoutNavData }) => {
       </NosotrosLayout>{" "}
       {post?.title === "Consejo directivo" ? (
         <>
-          <div className="dummyspace py-8 bg-index-gray"></div>
-          <Organigrama />
+
         </>
       ) : (
         <></>

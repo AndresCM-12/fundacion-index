@@ -587,7 +587,7 @@ const Header = ({ type = "aqua", navData }) => {
                               "group inline-flex items-center text-base font-medium focus:outline-none focus:ring-0 text-[15px] leading-6"
                             )}
                           >
-                            <span>Boletines</span>
+                            <span>Prensa</span>
                             <ChevronDownIcon
                               className={classNames(
                                 open
@@ -616,7 +616,7 @@ const Header = ({ type = "aqua", navData }) => {
                               <div className="content  flex w-full">
                                 <div className="wrapper flex flex-col w-4/12">
                                   <h2 className="md:text-[36px] md:leading-[36px] text-left font-basetica font-bold ">
-                                    Boletín
+                                  Prensa
                                   </h2>
                                   <p className=" mt-7 text-[18px] leading-6 w-3/4 font-albra font-normal">
                                     Consulta nuestra información más reciente.

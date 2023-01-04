@@ -17,7 +17,7 @@ const NosotrosBanner = ({ ...rest }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
         >
-          Boletín
+          Prensa
         </motion.h1>
         <motion.p
           className="font-albra text-[21px]"
@@ -63,7 +63,7 @@ const NosotrosBanner = ({ ...rest }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2 }}
             >
-              Boletín
+              Prensa
             </motion.h1>
             <motion.p
               className="font-basetica mt-24 text-[21px]"
