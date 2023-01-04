@@ -444,7 +444,7 @@ const EmpresasPage = ({ mainLayoutNavData }) => {
 
 export async function getServerSideProps({ params }) {
   const mainLayoutNavData = await getSections();
-  if (!data) {
+  if (!mainLayoutNavData) {
     return {
       props: {
         mainLayoutNavData: [
