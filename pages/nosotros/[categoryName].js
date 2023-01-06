@@ -81,7 +81,6 @@ const DinamicPage = ({ post, navData, postIndex, mainLayoutNavData }) => {
       ) : (
         <></>
       )}
-      {post?.title === "Historia" ? <TimeLineImage /> : <></>}
       <div className="dummyspace py-8 bg-index-gray"></div>
       <ImageSection image="/images/friendspic.jpg" type="programas" />
     </MainLayout>

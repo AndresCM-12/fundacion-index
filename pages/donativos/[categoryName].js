@@ -101,6 +101,7 @@ export async function getServerSideProps({ params }) {
     },
   };
 }
+
 async function getSections() {
   const response = await getCategories();
   if (!response) {
@@ -185,4 +186,5 @@ const fetchTitles = async (category) => {
   });
   return navData;
 };
+
 export default SaludBucalPage;

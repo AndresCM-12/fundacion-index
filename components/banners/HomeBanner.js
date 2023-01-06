@@ -111,14 +111,14 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.7 }}
                     >
-                      <Link href={item?.link}>
+                      {/* <Link href={item?.link}>
                         <a>
                           <CircleClicked />
                         </a>
-                      </Link>
+                      </Link> */}
                     </motion.div>
                     <p className="font-albra text-right mr-8 mt-4">
-                      Fundación Index © 2022
+                      Fundación Index © {currentYear}
                     </p>
                   </div>
                 </div>

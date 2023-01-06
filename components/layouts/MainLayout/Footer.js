@@ -252,8 +252,8 @@ const Footer = ({ navData }) => {
                 className="underline hover:text-index-aqua "
               >
                 Molus.co
-              </a>
-              {" "}y{" "}
+              </a>{" "}
+              y{" "}
               <a
                 href="https://deadline.mx/es"
                 className="underline hover:text-index-aqua "
@@ -270,5 +270,31 @@ const Footer = ({ navData }) => {
     </footer>
   );
 };
+
+// For future use
+// export async function getServerSideProps() {
+//   const data = await getPostsFromCategories("segments");
+
+//   if (!data) {
+//     return {
+//       props: {},
+//     };
+//   }
+
+//   const directionInfo = data.data.categories.nodes[0].posts.edges.find(
+//     (edge) => {
+//       return edge.node.title === "footer/directionInfo";
+//     }
+//   );
+//   console.log(directionInfo);
+
+//   const contactInfo = data.data.categories.nodes[0].posts.edges.find((edge) => {
+//     return edge.node.title === "footer/contactInfo";
+//   });
+
+//   return {
+//     props: { a: "a" },
+//   };
+// }
 
 export default Footer;

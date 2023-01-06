@@ -4,7 +4,10 @@ import MainLayout from "@/components/layouts/MainLayout";
 import ImageSection from "@/components/sections/ImageSection";
 import Image from "next/image";
 import DonantesBanner from "@/components/banners/DonantesBanner";
-import { getCategories, getPostsFromCategories } from "@/components/utils/Queries";
+import {
+  getCategories,
+  getPostsFromCategories,
+} from "@/components/utils/Queries";
 
 const data = {
   partone: [
@@ -190,8 +193,7 @@ const data = {
       textUrl: "www.zodiacaerospace.com",
       className: "-rotate-0",
     },
-  ],
-  parttwo: [
+
     {
       title: "Safran",
       image: "/images/donantes/safran.png",
@@ -369,7 +371,7 @@ const data = {
   ],
 };
 
-const EmpresasPage = ({ mainLayoutNavData }) => {
+const EmpresasPage = ({ mainLayoutNavData, empresas }) => {
   const CompanyItem = ({ item, key }) => {
     return (
       <div
@@ -421,17 +423,10 @@ const EmpresasPage = ({ mainLayoutNavData }) => {
             className="rightsection  lg:mx-6 lg:ml-0 pl-8 lg:pl-7 border-l-2 border-index-border w-full lg:w-8/12"
           >
             <div className="wrapper flex flex-col lg:flex-row justify-start items-start">
-              <div className="sectionone pr-4 lg:pr-0">
-                {data.partone.map((item, index) => (
-                  <CompanyItem item={item} key={index} />
+              <div className="sectionone flex flex-wrap gap-x-10">
+                {empresas.map((item, index) => (
+                  <CompanyItem key={index} item={item} />
                 ))}
-              </div>
-              <div className="sectiontwo pr-4 lg:pr-0">
-                <div className="sectionone pr-4 lg:pr-0">
-                  {data.parttwo.map((item, index) => (
-                    <CompanyItem item={item} key={index} />
-                  ))}
-                </div>
               </div>
             </div>
           </div>
@@ -457,10 +452,33 @@ export async function getServerSideProps({ params }) {
       },
     };
   }
+  const data = await getPostsFromCategories("segments");
+
+  const rawEmpresasDonantes = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "donantes/empresas";
+    })
+    .node.content.split("<separator>");
+  let empresasDonantes = [];
+  rawEmpresasDonantes.forEach((item) => {
+    const empresa = item.split("<article>")[1].split("</article>")[0];
+    const title = empresa.split("<h1>")[1].split("</h1>")[0];
+    const image = empresa.split("<h2>")[1].split("</h2>")[0];
+    const url = empresa.split("<h3>")[1].split("</h3>")[0];
+    const textUrl = empresa.split("<h4>")[1].split("</h4>")[0];
+    empresasDonantes.push({
+      title,
+      image,
+      url,
+      textUrl,
+      className: "",
+    });
+  });
 
   return {
     props: {
       mainLayoutNavData: mainLayoutNavData,
+      empresas: empresasDonantes,
     },
   };
 }

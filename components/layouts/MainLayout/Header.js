@@ -310,26 +310,31 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                <div className="wrappertwo border-l-2 pr-8 pl-8">
-                                  <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
-                                  <ul className="text-[21px] leading-6 font-normal font-albra">
-                                    {navData?.programasSection?.dropdown.map(
-                                      (item, index) => {
-                                        if (index > 4)
-                                          return (
-                                            <li
-                                              key={index}
-                                              className="text-black hover:text-index-aqua hover:underline pt-4"
-                                            >
-                                              <Link href={item.link}>
-                                                <a>{item.text}</a>
-                                              </Link>
-                                            </li>
-                                          );
-                                      }
-                                    )}
-                                  </ul>
-                                </div>
+                                {navData?.programasSection?.dropdown.length >
+                                4 ? (
+                                  <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                    <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                    <ul className="text-[21px] leading-6 font-normal font-albra">
+                                      {navData?.programasSection?.dropdown.map(
+                                        (item, index) => {
+                                          if (index > 4)
+                                            return (
+                                              <li
+                                                key={index}
+                                                className="text-black hover:text-index-aqua hover:underline pt-4"
+                                              >
+                                                <Link href={item.link}>
+                                                  <a>{item.text}</a>
+                                                </Link>
+                                              </li>
+                                            );
+                                        }
+                                      )}
+                                    </ul>
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </div>
                           </Popover.Panel>
@@ -616,7 +621,7 @@ const Header = ({ type = "aqua", navData }) => {
                               <div className="content  flex w-full">
                                 <div className="wrapper flex flex-col w-4/12">
                                   <h2 className="md:text-[36px] md:leading-[36px] text-left font-basetica font-bold ">
-                                  Prensa
+                                    Prensa
                                   </h2>
                                   <p className=" mt-7 text-[18px] leading-6 w-3/4 font-albra font-normal">
                                     Consulta nuestra información más reciente.

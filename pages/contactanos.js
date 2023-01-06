@@ -2,34 +2,69 @@ import MainLayout from "@/components/layouts/MainLayout";
 import ContactoBanner from "@/components/banners/ContactoBanner";
 import ContactInfo from "@/components/sections/contacto/ContactInfo";
 import ContactForm from "@/components/sections/contacto/ContactForm";
-import { getCategories, getPostsFromCategories } from "@/components/utils/Queries";
-const ContactanosPage = ({mainLayoutNavData}) => {
+import {
+  getCategories,
+  getPostsFromCategories,
+} from "@/components/utils/Queries";
+const ContactanosPage = ({ mainLayoutNavData, contactInfo, socialInfo }) => {
   return (
     <MainLayout navData={mainLayoutNavData}>
       <ContactoBanner className="bg-index-blue-default" />
-      <ContactInfo />
+      <ContactInfo info={contactInfo} socialInfo={socialInfo} />
       <ContactForm />
     </MainLayout>
   );
 };
 export async function getServerSideProps({ params }) {
-  const mainLayoutNavData = await getSections();
-  if (!mainLayoutNavData) {
+  const data = await getPostsFromCategories("segments");
+  if (!data) {
     return {
       props: {
-        mainLayoutNavData: [
-          {
-            text: "Server error",
-            link: "/",
-          },
-        ],
-        postIndex: 0,
+        null: null,
       },
     };
   }
 
+  const mainLayoutNavData = await getSections();
+
+  const rawContent = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "contacto/info";
+    })
+    .node.content.split("<article>")[1]
+    .split("</article>")[0];
+
+  const rawSocialInfo = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "social/info";
+    })
+    .node.content.split("<separator>");
+
+  let socialInfo = [];
+
+  rawSocialInfo.forEach((social) => {
+    const socialGroup = social.split("<article>")[1].split("</article>")[0];
+    const socialName = socialGroup.split("<h2>")[1].split("</h2>")[0];
+    const socialLink = socialGroup.split("<h1>")[1].split("</h1>")[0];
+    socialInfo.push({
+      name: socialName,
+      link: socialLink,
+    });
+  });
+
+  let contactInfo = {
+    text: rawContent.split("<h1>")[1].split("</h1>")[0],
+    title: rawContent.split("<h2>")[1].split("</h2>")[0],
+    email: rawContent.split("<h3>")[1].split("</h3>")[0],
+    phone: rawContent.split("<h4>")[1].split("</h4>")[0],
+    address1: rawContent.split("<h5>")[1].split("</h5>")[0],
+    address2: rawContent.split("<h6>")[1].split("</h6>")[0],
+  };
+
   return {
     props: {
+      contactInfo: contactInfo,
+      socialInfo: socialInfo,
       mainLayoutNavData: mainLayoutNavData,
     },
   };
