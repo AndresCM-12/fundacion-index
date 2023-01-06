@@ -69,7 +69,7 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                         </motion.div>
                       </div>
                       <div className="wrapperright">
-                        <div className="socialcontainer">
+                        {/* <div className="socialcontainer">
                           <div className="buttonscontainer flex flex-col space-y-2 mt-24">
                             <a
                               href="https://www.youtube.com/channel/UCKVfTXZ_zCi-aqfMc6rCB9Q"
@@ -102,7 +102,7 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                               </div>
                             </a>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <motion.div
@@ -111,11 +111,11 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.7 }}
                     >
-                      {/* <Link href={item?.link}>
+                      <Link href={item?.link}>
                         <a>
                           <CircleClicked />
                         </a>
-                      </Link> */}
+                      </Link>
                     </motion.div>
                     <p className="font-albra text-right mr-8 mt-4">
                       Fundación Index © {currentYear}
