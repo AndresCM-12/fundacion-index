@@ -5,7 +5,10 @@ import { useEffect } from "react";
 import BoletinesBanner from "@/components/banners/BoletinesBanner";
 import NosotrosLayout from "@/components/sections/nosotros/NosotrosLayout";
 import Numero from "@/components/icons/Numero";
-import { getCategories, getPostsFromCategories } from "@/components/utils/Queries";
+import {
+  getCategories,
+  getPostsFromCategories,
+} from "@/components/utils/Queries";
 
 const DinamicPage = ({ post, navData, mainLayoutNavData, postIndex }) => {
   let divWithFetchedContent;

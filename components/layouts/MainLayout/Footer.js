@@ -2,10 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import UpIcon from "@/components/icons/UpIcon";
 import { useEffect, useState } from "react";
-import {
-  getCategories,
-  getPostsFromCategories,
-} from "@/components/utils/Queries";
+import { getPostsFromCategories } from "@/components/utils/Queries";
 
 const navigation = {
   nosotros: [
@@ -57,9 +54,12 @@ const navigation = {
 
 const Footer = ({ navData }) => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-
+  const [footerInfo, setFooterInfo] = useState({});
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
+    getFooterInfo().then((response) => {
+      setFooterInfo(response);
+    });
   }, []);
 
   return (
@@ -85,23 +85,21 @@ const Footer = ({ navData }) => {
                 <p className="text-[18px] leading-[18px] font-semibold">
                   Siguenos en redes
                 </p>
-                <div className="buttonscontainer flex mt-8 mb-12">
-                  <a
-                    href="https://www.facebook.com/FundacionIndexChihuahua"
-                    className="socialbutton font-[15px] mr-3"
-                  >
-                    <div className="socialcontainer hover:text-black hover:bg-index-aqua border border-index-aqua w-[50px] h-[50px] flex justify-center align-center rounded-full">
-                      <p className="flex justify-center items-center">FB</p>
-                    </div>
-                  </a>
-                  <a
-                    href="https://www.youtube.com/channel/UCKVfTXZ_zCi-aqfMc6rCB9Q"
-                    className="socialbutton font-[15px] mr-3"
-                  >
-                    <div className="socialcontainer hover:text-black hover:bg-index-aqua border border-index-aqua w-[50px] h-[50px] flex justify-center align-center rounded-full">
-                      <p className="flex justify-center items-center">YT</p>
-                    </div>
-                  </a>
+                <div className="buttonscontainer flex mt-8 mb-12 flex-wrap gap-y-4">
+                  {footerInfo.socialInfo?.map((redes) => {
+                    return (
+                      <a
+                        href={redes?.link}
+                        className="socialbutton font-[15px] mr-3"
+                      >
+                        <div className="socialcontainer hover:text-black hover:bg-index-aqua border border-index-aqua w-[50px] h-[50px] flex justify-center align-center rounded-full">
+                          <p className="flex justify-center items-center">
+                            {redes?.name}
+                          </p>
+                        </div>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
               <div className="col-span-2 ">
@@ -109,20 +107,33 @@ const Footer = ({ navData }) => {
                   Contacto
                 </p>
                 <div className="address text-[15px] leading-[24px] mt-8 ">
-                  <p>Av. William Shakespeare 157</p>
+                  {footerInfo.directionInfo?.map((item, index) => (
+                    <p key={index}>{item}</p>
+                  ))}
+                  {/* <p>Av. William Shakespeare 157</p>
                   <p>Complejo Industrial Chihuahua 31136</p>
-                  <p>Chihuahua, Chih, México.</p>
+                  <p>Chihuahua, Chih, México.</p> */}
                   <br />
-                  <a
-                    href="mailto:fundacion@indexchihuahua.org.mx"
-                    className="underline"
-                  >
-                    fundacion@indexchihuahua.org.mx
-                  </a>
-                  <br />
-                  <a href="tel:+52(614)4428450" className="underline">
-                    +52(614) 4428450
-                  </a>
+                  {footerInfo.contactInfo ? (
+                    <>
+                      {" "}
+                      <a
+                        href={"mailto:" + footerInfo.contactInfo[0]}
+                        className="underline"
+                      >
+                        {footerInfo.contactInfo[0]}
+                      </a>
+                      <br />
+                      <a
+                        href={"tel:" + footerInfo.contactInfo[1]}
+                        className="underline"
+                      >
+                        {footerInfo.contactInfo[1]}
+                      </a>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
               <div className="hidden lg:row-span-2 xl:block">
@@ -272,29 +283,62 @@ const Footer = ({ navData }) => {
 };
 
 // For future use
-// export async function getServerSideProps() {
-//   const data = await getPostsFromCategories("segments");
+async function getFooterInfo() {
+  const data = await getPostsFromCategories("segments");
 
-//   if (!data) {
-//     return {
-//       props: {},
-//     };
-//   }
+  if (!data) {
+    return {
+      props: {},
+    };
+  }
 
-//   const directionInfo = data.data.categories.nodes[0].posts.edges.find(
-//     (edge) => {
-//       return edge.node.title === "footer/directionInfo";
-//     }
-//   );
-//   console.log(directionInfo);
+  const directionInfoRaw = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "footer/directionInfo";
+    })
+    .node.content.split("<separator>");
 
-//   const contactInfo = data.data.categories.nodes[0].posts.edges.find((edge) => {
-//     return edge.node.title === "footer/contactInfo";
-//   });
+  const directionInfo = [];
 
-//   return {
-//     props: { a: "a" },
-//   };
-// }
+  directionInfoRaw.map((direction) => {
+    directionInfo.push(direction.split("<p>")[1].split("</p>")[0]);
+  });
+
+  const contactInfoRaw = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "footer/contactInfo";
+    })
+    .node.content.split("<separator>");
+
+  const contactInfo = [];
+
+  contactInfoRaw.map((contact) => {
+    return contactInfo.push(contact.split("<p>")[1].split("</p>")[0]);
+  });
+
+  const rawSocialInfo = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "social/info";
+    })
+    .node.content.split("<separator>");
+
+  let socialInfo = [];
+
+  rawSocialInfo.forEach((social) => {
+    const socialGroup = social.split("<article>")[1].split("</article>")[0];
+    const socialName = socialGroup.split("<h2>")[1].split("</h2>")[0];
+    const socialLink = socialGroup.split("<h1>")[1].split("</h1>")[0];
+    socialInfo.push({
+      name: socialName,
+      link: socialLink,
+    });
+  });
+
+  return {
+    directionInfo,
+    contactInfo,
+    socialInfo,
+  };
+}
 
 export default Footer;
