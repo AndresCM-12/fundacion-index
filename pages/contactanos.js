@@ -6,6 +6,7 @@ import {
   getCategories,
   getPostsFromCategories,
 } from "@/components/utils/Queries";
+
 const ContactanosPage = ({ mainLayoutNavData, contactInfo, socialInfo }) => {
   return (
     <MainLayout navData={mainLayoutNavData}>
@@ -15,6 +16,7 @@ const ContactanosPage = ({ mainLayoutNavData, contactInfo, socialInfo }) => {
     </MainLayout>
   );
 };
+
 export async function getServerSideProps({ params }) {
   const data = await getPostsFromCategories("segments");
   if (!data) {
@@ -51,7 +53,6 @@ export async function getServerSideProps({ params }) {
       link: socialLink,
     });
   });
-
   let contactInfo = {
     text: rawContent.split("<h1>")[1].split("</h1>")[0],
     title: rawContent.split("<h2>")[1].split("</h2>")[0],
@@ -59,6 +60,9 @@ export async function getServerSideProps({ params }) {
     phone: rawContent.split("<h4>")[1].split("</h4>")[0],
     address1: rawContent.split("<h5>")[1].split("</h5>")[0],
     address2: rawContent.split("<h6>")[1].split("</h6>")[0],
+    linkUrl: rawContent.split('src="')[1].split('">')[0],
+    linkText: rawContent.split('">')[1].split("</a>")[0],
+    redes: rawContent.split("<p>")[1].split("</p>")[0],
   };
 
   return {

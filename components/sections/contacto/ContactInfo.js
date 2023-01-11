@@ -70,12 +70,12 @@ const ContactInfo = ({ info, socialInfo }) => {
               <div className="buttoncontainer">
                 <Button
                   apperance="white"
-                  label="Ver en mapa"
-                  localUrl="https://goo.gl/maps/n3RXe3VdrfetxMZb7"
+                  label={info?.linkText}
+                  localUrl={info?.linkUrl}
                   className={`pt-4 pb-4 text-lg`}
                 />
               </div>
-              <p>Visitanos en redes</p>
+              <p>{info?.redes}</p>
               <div className="buttonscontainer flex">
                 {socialInfo?.map((redes) => {
                   return (
@@ -141,7 +141,7 @@ const ContactInfo = ({ info, socialInfo }) => {
               <p className="">{info?.phone}</p>
             </a>
             <div className="socialcontainer mt-8 font-albra text-lg">
-              <p>Visitanos en redes</p>
+              <p>{info?.redes}</p>
               <div className="buttonscontainer flex mt-2">
                 {socialInfo?.map((social) => {
                   return (
@@ -165,8 +165,8 @@ const ContactInfo = ({ info, socialInfo }) => {
               <div className="buttoncontainer my-16">
                 <Button
                   apperance="white"
-                  label="Ver en mapa"
-                  localUrl="https://goo.gl/maps/n3RXe3VdrfetxMZb7"
+                  label={info?.linkText}
+                  localUrl={info?.linkUrl}
                   className={`pt-6 pb-6 text-lg`}
                 />
               </div>
