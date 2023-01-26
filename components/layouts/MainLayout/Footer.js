@@ -85,7 +85,10 @@ const Footer = ({ navData }) => {
                 <p className="text-[18px] leading-[18px] font-semibold">
                   Siguenos en redes
                 </p>
-                <div className="buttonscontainer flex mt-8 mb-12 flex-wrap gap-y-4">
+                <div
+                  className="buttonscontainer flex mt-8 mb-12 flex-wrap gap-y-4"
+                  style={{ maxWidth: 220 }}
+                >
                   {footerInfo.socialInfo?.map((redes) => {
                     return (
                       <a
@@ -177,7 +180,7 @@ const Footer = ({ navData }) => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
                   {navData?.programasSection?.dropdown?.map((item, index) => {
-                    if (index < 5)
+                    if (index < 4)
                       return (
                         <li key={item.text}>
                           <Link href={item.link}>
@@ -198,7 +201,7 @@ const Footer = ({ navData }) => {
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
                   {navData?.programasSection?.dropdown?.map((item, index) => {
-                    if (index > 4)
+                    if (index >= 4)
                       return (
                         <li key={item.text}>
                           <Link href={item.link}>

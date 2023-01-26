@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import UpIcon from "../icons/UpIcon";
+import { getPostsFromCategories } from "../utils/Queries";
 const HalfCircle = ({ ...rest }) => {
   return (
     <svg
@@ -22,6 +24,16 @@ const HalfCircle = ({ ...rest }) => {
 };
 
 const DonantesBanner = ({ ...rest }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    fetchTitleAndDescription().then((items) => {
+      const section = items[5];
+      setTitle(section.title);
+      setDescription(section.description);
+    });
+  }, []);
   return (
     <div
       className={`supercontainer min-h-screen h-screen w-screen  ${rest.className}`}
@@ -35,7 +47,7 @@ const DonantesBanner = ({ ...rest }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
         >
-          Empresas Donantes
+          {title}
         </motion.h1>
         <motion.p
           className="font-albra text-[21px]"
@@ -43,8 +55,7 @@ const DonantesBanner = ({ ...rest }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.7 }}
         >
-          ¿Estás interesado en solicitar financiamiento? Conoce más sobre
-          nuestros procedimiento y los requerimientos necesarios.{" "}
+          {description}
         </motion.p>
       </div>
 
@@ -81,7 +92,7 @@ const DonantesBanner = ({ ...rest }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2 }}
             >
-              Empresas Donantes
+              {title}
             </motion.h1>
             <motion.p
               className="font-basetica mt-24 text-[21px]"
@@ -89,8 +100,7 @@ const DonantesBanner = ({ ...rest }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.7 }}
             >
-              ¿Estás interesado en solicitar financiamiento? <br /> Conoce más
-              sobre nuestros procedimiento y los requerimientos necesarios.{" "}
+              {description}
             </motion.p>
           </div>
           {/* DEKSTOP SVG */}
@@ -106,5 +116,29 @@ const DonantesBanner = ({ ...rest }) => {
     </div>
   );
 };
+const fetchTitleAndDescription = async () => {
+  const data = await getPostsFromCategories("segments");
 
+  if (!data) {
+    return {
+      props: {},
+    };
+  }
+
+  const segmentsRawInfo = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "customBanners/pages";
+    })
+    .node.content.split("<separator>");
+
+  const homeBanners = [];
+
+  segmentsRawInfo.map((direction) => {
+    homeBanners.push({
+      title: direction.split("<h1>")[1].split("</h1>")[0],
+      description: direction.split("<p>")[1].split("</p>")[0],
+    });
+  });
+  return homeBanners;
+};
 export default DonantesBanner;

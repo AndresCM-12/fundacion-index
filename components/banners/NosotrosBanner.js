@@ -2,8 +2,20 @@
 import { motion } from "framer-motion";
 import UpIcon from "@/components/icons/UpIcon";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getPostsFromCategories } from "../utils/Queries";
 
 const NosotrosBanner = ({ ...rest }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    fetchTitleAndDescription().then((items) => {
+      const section = items[0];
+      setTitle(section.title);
+      setDescription(section.description);
+    });
+  }, []);
   return (
     <div
       className={`supercontainer min-h-screen h-screen w-screen  ${rest.className}`}
@@ -17,7 +29,7 @@ const NosotrosBanner = ({ ...rest }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
         >
-          Acerca de nosotros
+          {title}
         </motion.h1>
         <motion.p
           className="font-albra text-[21px]"
@@ -25,8 +37,7 @@ const NosotrosBanner = ({ ...rest }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1.6 }}
         >
-          ¿Estás interesado en solicitar financiamiento? Conoce más sobre
-          nuestros procedimiento y los requerimientos necesarios.{" "}
+          {description}
         </motion.p>
       </div>
 
@@ -63,7 +74,7 @@ const NosotrosBanner = ({ ...rest }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2 }}
             >
-              Acerca de nosotros
+              {title}
             </motion.h1>
             <motion.p
               className="font-basetica mt-24 text-[21px]"
@@ -71,8 +82,7 @@ const NosotrosBanner = ({ ...rest }) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.7 }}
             >
-              ¿Estás interesado en solicitar financiamiento? <br /> Conoce más
-              sobre nuestros procedimiento y los requerimientos necesarios.{" "}
+              {description}
             </motion.p>
           </div>
           {/* DEKSTOP SVG */}
@@ -106,6 +116,32 @@ const HalfCircle = ({ ...rest }) => {
       />
     </svg>
   );
+};
+
+const fetchTitleAndDescription = async () => {
+  const data = await getPostsFromCategories("segments");
+
+  if (!data) {
+    return {
+      props: {},
+    };
+  }
+
+  const segmentsRawInfo = data.data.categories.nodes[0].posts.edges
+    .find((edge) => {
+      return edge.node.title === "customBanners/pages";
+    })
+    .node.content.split("<separator>");
+
+  const homeBanners = [];
+
+  segmentsRawInfo.map((direction) => {
+    homeBanners.push({
+      title: direction.split("<h1>")[1].split("</h1>")[0],
+      description: direction.split("<p>")[1].split("</p>")[0],
+    });
+  });
+  return homeBanners;
 };
 
 export default NosotrosBanner;

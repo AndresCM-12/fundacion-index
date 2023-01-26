@@ -182,7 +182,7 @@ const Header = ({ type = "aqua", navData }) => {
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.nosotrosSection?.dropdown.map(
                                       (item, index) => {
-                                        if (index <= 4)
+                                        if (index < 4)
                                           return (
                                             <li
                                               key={index}
@@ -197,7 +197,7 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                {navData?.nosotrosSection?.dropdown.length >
+                                {navData?.nosotrosSection?.dropdown.length >=
                                 4 ? (
                                   <>
                                     {" "}
@@ -295,7 +295,7 @@ const Header = ({ type = "aqua", navData }) => {
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.programasSection?.dropdown.map(
                                       (item, index) => {
-                                        if (index <= 4)
+                                        if (index < 4)
                                           return (
                                             <li
                                               key={index}
@@ -310,14 +310,14 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                {navData?.programasSection?.dropdown.length >
+                                {navData?.programasSection?.dropdown.length >=
                                 4 ? (
                                   <div className="wrappertwo border-l-2 pr-8 pl-8">
                                     <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
                                     <ul className="text-[21px] leading-6 font-normal font-albra">
                                       {navData?.programasSection?.dropdown.map(
                                         (item, index) => {
-                                          if (index > 4)
+                                          if (index >= 4)
                                             return (
                                               <li
                                                 key={index}
@@ -407,7 +407,7 @@ const Header = ({ type = "aqua", navData }) => {
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.donativosSection?.dropdown.map(
                                       (item, index) => {
-                                        if (index <= 4)
+                                        if (index < 4)
                                           return (
                                             <li
                                               key={index}
@@ -422,7 +422,7 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                {navData?.donativosSection?.dropdown.length >
+                                {navData?.donativosSection?.dropdown.length >=
                                 4 ? (
                                   <>
                                     {" "}
@@ -521,7 +521,7 @@ const Header = ({ type = "aqua", navData }) => {
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.recicladoresSection?.dropdown.map(
                                       (item, index) => {
-                                        if (index <= 4)
+                                        if (index < 4)
                                           return (
                                             <li
                                               key={index}
@@ -536,8 +536,8 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                {navData?.recicladoresSection?.dropdown.length >
-                                4 ? (
+                                {navData?.recicladoresSection?.dropdown
+                                  .length >= 4 ? (
                                   <>
                                     {" "}
                                     <div className="wrappertwo border-l-2 pr-8 pl-8">
@@ -634,7 +634,7 @@ const Header = ({ type = "aqua", navData }) => {
                                   <ul className="text-[21px] leading-6 font-normal font-albra">
                                     {navData?.boletinesSection?.dropdown.map(
                                       (item, index) => {
-                                        if (index <= 4)
+                                        if (index < 4)
                                           return (
                                             <li
                                               key={index}
@@ -649,7 +649,7 @@ const Header = ({ type = "aqua", navData }) => {
                                     )}
                                   </ul>
                                 </div>
-                                {navData?.boletinesSection?.dropdown.length >
+                                {navData?.boletinesSection?.dropdown.length >=
                                 4 ? (
                                   <>
                                     {" "}
