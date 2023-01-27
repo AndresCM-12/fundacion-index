@@ -59,7 +59,10 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                           transition={{ duration: 1.2 }}
                         >
                           <>
-                            <h1 className="text-basetica font-bold text-5xl ">
+                            <h1
+                              id="HomeBannerTitle"
+                              className="text-basetica font-bold text-5xl "
+                            >
                               {item?.title}
                             </h1>
                             <p className="font-albra hidden lg:block text-[21px]  mt-8">
@@ -141,6 +144,7 @@ const HomeBanner = ({ swiperBlocks, ...rest }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1.2 }}
+                    id="HomeBannerTitle"
                   >
                     {item?.title}
                   </motion.h1>

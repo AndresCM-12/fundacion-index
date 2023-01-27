@@ -10,10 +10,6 @@ import Button from "@/components/common/Button";
 import MenuIcon from "@/components/icons/MenuIcon";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {
-  getCategories,
-  getPostsFromCategories,
-} from "@/components/utils/Queries";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -94,6 +90,7 @@ const Header = ({ type = "aqua", navData }) => {
             <div className="">
               <a href="/" className="flex md:hidden lg:flex   ">
                 <img
+                  id="imageHeader"
                   className="h-10 w-auto max-w-xs sm:h-14"
                   src="/images/headerlogo.png"
                   alt="logo"
@@ -685,6 +682,119 @@ const Header = ({ type = "aqua", navData }) => {
                     );
                   }}
                 </Popover>
+                {/* Eventos */}
+                <Popover>
+                  {({ open }) => {
+                    return (
+                      <>
+                        <div
+                          className="buttonwrapper"
+                          onClick={() => {
+                            changeGlobalOpen(!open);
+                          }}
+                        >
+                          <Popover.Button
+                            className={classNames(
+                              globalOpen
+                                ? "text-black hover:text-black"
+                                : "text-white hover:text.white",
+
+                              "group inline-flex items-center text-base font-medium focus:outline-none focus:ring-0 text-[15px] leading-6"
+                            )}
+                          >
+                            <span>Eventos</span>
+                            <ChevronDownIcon
+                              className={classNames(
+                                open
+                                  ? "text-index-aqua hover:text-index-aqua hover:underline rotate-180"
+                                  : "text-white hover:text-white",
+                                globalOpen && !open && "text-index-aqua",
+
+                                "ml-2 h-5 w-5"
+                              )}
+                              aria-hidden="true"
+                            />
+                          </Popover.Button>
+                        </div>
+
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-200"
+                          enterFrom="opacity-0 -translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 -translate-y-1"
+                        >
+                          <Popover.Panel className="hidden  text-black  md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white">
+                            <div className="max-w-7xl  mx-auto  px-4 py-6  sm:px-6 sm:py-8  lg:px-8 lg:py-12">
+                              <div className="content  flex w-full">
+                                <div className="wrapper flex flex-col w-4/12">
+                                  <h2 className="md:text-[36px] md:leading-[36px] text-left font-basetica font-bold ">
+                                    Eventos
+                                  </h2>
+                                  <p className=" mt-7 text-[18px] leading-6 w-3/4 font-albra font-normal">
+                                    Conoce nuestros próximos eventos
+                                  </p>
+                                </div>
+                                <div className="wrappertwo w-4/12 border-l-2  pl-8">
+                                  <h2 className="uppercase font-albra tracking-headline text-xs leading-3 text-black font-bold">
+                                    A detalle
+                                  </h2>
+                                  <ul className="text-[21px] leading-6 font-normal font-albra">
+                                    {navData?.eventosSection?.dropdown.map(
+                                      (item, index) => {
+                                        if (index < 4)
+                                          return (
+                                            <li
+                                              key={index}
+                                              className="text-black hover:text-index-aqua hover:underline pt-4"
+                                            >
+                                              <Link href={item.link}>
+                                                <a>{item.text}</a>
+                                              </Link>
+                                            </li>
+                                          );
+                                      }
+                                    )}
+                                  </ul>
+                                </div>
+                                {navData?.eventosSection?.dropdown.length >=
+                                4 ? (
+                                  <>
+                                    {" "}
+                                    <div className="wrappertwo border-l-2 pr-8 pl-8">
+                                      <h2 className="uppercase font-albra text-[12px] leading-3 text-black font-bold"></h2>
+                                      <ul className="text-[21px] leading-6 font-normal font-albra">
+                                        {navData?.eventosSection?.dropdown.map(
+                                          (item, index) => {
+                                            if (index > 4)
+                                              return (
+                                                <li
+                                                  key={index}
+                                                  className="text-black hover:text-index-aqua hover:underline pt-4"
+                                                >
+                                                  <Link href={item.link}>
+                                                    <a>{item.text}</a>
+                                                  </Link>
+                                                </li>
+                                              );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
+                            </div>
+                          </Popover.Panel>
+                        </Transition>
+                      </>
+                    );
+                  }}
+                </Popover>
                 {/* DONANTES */}
                 <Link
                   href="/donantes/empresas"
@@ -692,10 +802,10 @@ const Header = ({ type = "aqua", navData }) => {
                     "text-white hover:text.white group inline-flex items-center text-base font-medium focus:outline-none focus:ring-0 text-[15px] leading-6"
                   )}
                 >
-                  <a>Donantes</a>
+                  <a id="headerLink">Donantes</a>
                 </Link>
                 {/* CONTACTO BUTTON */}
-                <div className="buttoncontainer hidden md:flex ">
+                <div id="headerCta" className="buttoncontainer hidden md:flex ">
                   <Button
                     appearance={
                       globalOpen

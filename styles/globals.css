@@ -143,3 +143,37 @@ div.listcontainer
 .swiper-pagination-fraction {
   color: white;
 }
+
+
+/* Header navbar */
+@media  screen and (max-width: 1310px) {
+  #header{
+    justify-content: center;
+  }
+  img#imageHeader{
+    display: none;
+  }
+}
+@media  screen and (max-width: 1124px) {
+  #headerLink{
+    display: none;
+  }
+}
+@media  screen and (max-width: 880px) {
+  #headerCta{
+    display: none;
+  }
+}
+@media  screen and (max-width: 768px) {
+  img#imageHeader{
+    display: block;
+  }
+}
+/* Headernavbar */
+
+/* Home banner text */
+@media screen and (max-width: 425px){
+  h1#HomeBannerTitle{
+    font-size: 2.2rem;
+  }
+}
