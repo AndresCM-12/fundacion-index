@@ -175,5 +175,6 @@ div.listcontainer
 @media screen and (max-width: 425px){
   h1#HomeBannerTitle{
     font-size: 2.2rem;
+    padding-left: 10px;
   }
 }
