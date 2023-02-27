@@ -118,6 +118,7 @@ async function getSections() {
   let donativosSection;
   let recicladoresSection;
   let boletinesSection;
+  let eventosSection;
   let props;
 
   await Promise.all(
@@ -140,12 +141,16 @@ async function getSections() {
       boletinesSection = navData.find((item) => {
         return item.title === "boletines";
       });
+      eventosSection = navData.find((item) => {
+        return item.title === "eventos";
+      });
       return await {
         nosotrosSection,
         programasSection,
         donativosSection,
         recicladoresSection,
         boletinesSection,
+        eventosSection
       };
     })
   );
@@ -156,6 +161,7 @@ async function getSections() {
     donativosSection,
     recicladoresSection,
     boletinesSection,
+    eventosSection
   };
   return await props;
 }

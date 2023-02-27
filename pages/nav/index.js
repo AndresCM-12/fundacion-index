@@ -165,7 +165,7 @@ const Nav = ({ navData }) => {
               />
             </header>
           </div>
-          <div className="content bg-index-blue-dark mt-32 overflow-scroll">
+          <div className="content bg-index-blue-dark mt-32">
             <ul className="links font-albra text-[30px] text-white  px-7 leading-9">
               {navData.map((item, index) => {
                 if (item.link) {
@@ -273,6 +273,7 @@ async function getSections() {
   let donativosSection;
   let recicladoresSection;
   let boletinSection;
+  let eventosSection;
   let props;
 
   await Promise.all(
@@ -295,12 +296,16 @@ async function getSections() {
       boletinSection = navData.find((item) => {
         return item.title === "boletines";
       });
+      eventosSection = navData.find((item) => {
+        return item.title === "eventos";
+      });
       return await {
         nosotrosSection,
         programasSection,
         donativosSection,
         recicladoresSection,
         boletinSection,
+        eventosSection
       };
     })
   );
@@ -315,6 +320,7 @@ async function getSections() {
     donativosSection,
     recicladoresSection,
     boletinSection,
+    eventosSection,
     {
       title: "Donantes",
       link: "/donantes/empresas",
