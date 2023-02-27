@@ -425,7 +425,7 @@ const EmpresasPage = ({ mainLayoutNavData, empresas }) => {
             <div className="wrapper flex flex-col lg:flex-row justify-start items-start">
               <div className="sectionone flex flex-wrap gap-x-10">
                 {empresas.map((item, index) => (
-                  <CompanyItem key={index} item={item} />
+                  <CompanyItem key={"donantes--images--"+index} item={item} />
                 ))}
               </div>
             </div>
