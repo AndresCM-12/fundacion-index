@@ -50,10 +50,10 @@ const SaludBucalPage = ({ post, navData, mainLayoutNavData, postIndex }) => {
           <Numero type={"" + postIndex} color="purple" />
           <div id="DynamicWrapper"></div>
         </div>
-        {post?.title === "Procedimiento" ? <DynamicListComponent /> : <></>}
+        {/* {post?.title === "Procedimiento" ? <DynamicListComponent /> : <></>} */}
       </DonativosLayout>{" "}
       <div className="dummyspace py-8 bg-index-gray"></div>{" "}
-      {post?.title === "Documentación" ? <DynamicUsbSectionComponent /> : <></>}
+      {/* {post?.title === "Documentación" ? <DynamicUsbSectionComponent /> : <></>} */}
       <ImageSection image="/images/kid.jpg" type="donativos" />
     </MainLayout>
   );
